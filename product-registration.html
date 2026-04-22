@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Registration Form - Beta Tech Solutions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="date"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        input[type="number"]:focus,
+        input[type="date"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-row.full {
+            grid-template-columns: 1fr;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            .form-header h1 {
+                font-size: 24px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <h1>Product Registration Form</h1>
+            <p>Beta Tech Solutions Ltd - Musanze District</p>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            Product registered successfully! We will review your submission.
+        </div>
+
+        <form id="productForm" onsubmit="handleSubmit(event)">
+            <!-- Product Information Section -->
+            <div class="form-row full">
+                <h3 style="color: #667eea; margin-bottom: 15px;">Product Information</h3>
+            </div>
+
+            <div class="form-group">
+                <label for="productName">Product Name <span class="required">*</span></label>
+                <input type="text" id="productName" name="productName" required placeholder="Enter product name">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="productCategory">Category <span class="required">*</span></label>
+                    <select id="productCategory" name="productCategory" required>
+                        <option value="">Select a category</option>
+                        <option value="software">Software</option>
+                        <option value="hardware">Hardware</option>
+                        <option value="service">Service</option>
+                        <option value="consulting">Consulting</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="productCode">Product Code <span class="required">*</span></label>
+                    <input type="text" id="productCode" name="productCode" required placeholder="e.g., PROD-2026-001">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="productDescription">Product Description <span class="required">*</span></label>
+                <textarea id="productDescription" name="productDescription" required placeholder="Describe your product features and benefits"></textarea>
+            </div>
+
+            <!-- Pricing Information Section -->
+            <div class="form-row full">
+                <h3 style="color: #667eea; margin-bottom: 15px; margin-top: 20px;">Pricing Information</h3>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="productPrice">Unit Price (RWF) <span class="required">*</span></label>
+                    <input type="number" id="productPrice" name="productPrice" required placeholder="0.00" min="0" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="currency">Currency <span class="required">*</span></label>
+                    <select id="currency" name="currency" required>
+                        <option value="RWF">RWF (Rwandan Franc)</option>
+                        <option value="USD">USD (US Dollar)</option>
+                        <option value="EUR">EUR (Euro)</option>
+                        <option value="GBP">GBP (British Pound)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="quantity">Quantity Available <span class="required">*</span></label>
+                    <input type="number" id="quantity" name="quantity" required placeholder="0" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="discount">Discount (%) </label>
+                    <input type="number" id="discount" name="discount" placeholder="0" min="0" max="100" step="0.01">
+                </div>
+            </div>
+
+            <!-- Supplier Information Section -->
+            <div class="form-row full">
+                <h3 style="color: #667eea; margin-bottom: 15px; margin-top: 20px;">Supplier Information</h3>
+            </div>
+
+            <div class="form-group">
+                <label for="supplierName">Supplier Name <span class="required">*</span></label>
+                <input type="text" id="supplierName" name="supplierName" required placeholder="Enter supplier name">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="supplierEmail">Supplier Email <span class="required">*</span></label>
+                    <input type="email" id="supplierEmail" name="supplierEmail" required placeholder="email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="supplierPhone">Supplier Phone <span class="required">*</span></label>
+                    <input type="tel" id="supplierPhone" name="supplierPhone" required placeholder="+250 XXX XXX XXX">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="supplierAddress">Supplier Address <span class="required">*</span></label>
+                <input type="text" id="supplierAddress" name="supplierAddress" required placeholder="Street, City, Province">
+            </div>
+
+            <!-- Product Details Section -->
+            <div class="form-row full">
+                <h3 style="color: #667eea; margin-bottom: 15px; margin-top: 20px;">Product Details</h3>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="manufacturingDate">Manufacturing Date</label>
+                    <input type="date" id="manufacturingDate" name="manufacturingDate">
+                </div>
+                <div class="form-group">
+                    <label for="expiryDate">Expiry Date</label>
+                    <input type="date" id="expiryDate" name="expiryDate">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="warranty">Warranty Period (months)</label>
+                    <input type="number" id="warranty" name="warranty" placeholder="0" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="certifications">Certifications</label>
+                    <input type="text" id="certifications" name="certifications" placeholder="e.g., ISO 9001, CE">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="specialNotes">Special Notes or Comments</label>
+                <textarea id="specialNotes" name="specialNotes" placeholder="Add any additional information"></textarea>
+            </div>
+
+            <!-- Buttons -->
+            <div class="form-row full">
+                <button type="submit">Register Product</button>
+                <button type="reset" style="background: #95a5a6;">Clear Form</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+
+            // Get form data
+            const formData = new FormData(document.getElementById('productForm'));
+            const data = Object.fromEntries(formData);
+
+            // Log the data (in real application, this would be sent to a server)
+            console.log('Product Registration Data:', data);
+
+            // Show success message
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+
+            // Reset form after 2 seconds
+            setTimeout(() => {
+                document.getElementById('productForm').reset();
+                successMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        // Add form validation
+        document.getElementById('productForm').addEventListener('change', function(e) {
+            if (e.target.type === 'email') {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(e.target.value) && e.target.value !== '') {
+                    e.target.style.borderColor = '#e74c3c';
+                } else {
+                    e.target.style.borderColor = '#ddd';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

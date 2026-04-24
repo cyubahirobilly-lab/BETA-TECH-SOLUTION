@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Booking Form - Beta Tech Solutions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="date"],
+        input[type="time"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-row.full {
+            grid-template-columns: 1fr;
+        }
+
+        .section-title {
+            color: #667eea;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            margin-top: 20px;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 10px 0 20px;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 10px;
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button[type="submit"]:active {
+            transform: translateY(0);
+        }
+
+        button[type="reset"] {
+            width: 100%;
+            padding: 12px;
+            background: #95a5a6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            margin-top: 10px;
+        }
+
+        button[type="reset"]:hover {
+            transform: translateY(-2px);
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            .form-header h1 {
+                font-size: 24px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <h1>Event Booking Form</h1>
+            <p>Beta Tech Solutions Ltd - Musanze District</p>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            Your booking has been submitted! We will confirm your reservation shortly.
+        </div>
+
+        <form id="eventForm" onsubmit="handleSubmit(event)">
+
+            <!-- Event Information Section -->
+            <h3 class="section-title">Event Information</h3>
+
+            <div class="form-group">
+                <label for="eventName">Event Name <span class="required">*</span></label>
+                <input type="text" id="eventName" name="eventName" required placeholder="Enter event name">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="eventType">Event Type <span class="required">*</span></label>
+                    <select id="eventType" name="eventType" required>
+                        <option value="">Select type</option>
+                        <option value="conference">Conference</option>
+                        <option value="workshop">Workshop</option>
+                        <option value="seminar">Seminar</option>
+                        <option value="networking">Networking</option>
+                        <option value="concert">Concert</option>
+                        <option value="sports">Sports</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="eventCode">Event Code <span class="required">*</span></label>
+                    <input type="text" id="eventCode" name="eventCode" required placeholder="e.g., EVT-2026-001">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="eventDescription">Event Description <span class="required">*</span></label>
+                <textarea id="eventDescription" name="eventDescription" required placeholder="Describe the event, agenda, and what attendees can expect"></textarea>
+            </div>
+
+            <!-- Date & Venue Section -->
+            <hr class="divider">
+            <h3 class="section-title">Date & Venue</h3>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="startDate">Start Date <span class="required">*</span></label>
+                    <input type="date" id="startDate" name="startDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="endDate">End Date <span class="required">*</span></label>
+                    <input type="date" id="endDate" name="endDate" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="startTime">Start Time <span class="required">*</span></label>
+                    <input type="time" id="startTime" name="startTime" required>
+                </div>
+                <div class="form-group">
+                    <label for="endTime">End Time</label>
+                    <input type="time" id="endTime" name="endTime">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="venue">Venue / Location <span class="required">*</span></label>
+                <input type="text" id="venue" name="venue" required placeholder="Street, City, Province">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="capacity">Capacity (max attendees) <span class="required">*</span></label>
+                    <input type="number" id="capacity" name="capacity" required placeholder="0" min="1">
+                </div>
+                <div class="form-group">
+                    <label for="seats">Available Seats</label>
+                    <input type="number" id="seats" name="seats" placeholder="0" min="0">
+                </div>
+            </div>
+
+            <!-- Pricing & Tickets Section -->
+            <hr class="divider">
+            <h3 class="section-title">Pricing & Tickets</h3>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="ticketPrice">Ticket Price (RWF) <span class="required">*</span></label>
+                    <input type="number" id="ticketPrice" name="ticketPrice" required placeholder="0.00" min="0" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="currency">Currency <span class="required">*</span></label>
+                    <select id="currency" name="currency" required>
+                        <option value="RWF">RWF (Rwandan Franc)</option>
+                        <option value="USD">USD (US Dollar)</option>
+                        <option value="EUR">EUR (Euro)</option>
+                        <option value="GBP">GBP (British Pound)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="ticketType">Ticket Type</label>
+                    <select id="ticketType" name="ticketType">
+                        <option value="">Select type</option>
+                        <option value="general">General Admission</option>
+                        <option value="vip">VIP</option>
+                        <option value="earlybird">Early Bird</option>
+                        <option value="student">Student</option>
+                        <option value="free">Free</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="discount">Discount (%)</label>
+                    <input type="number" id="discount" name="discount" placeholder="0" min="0" max="100" step="0.01">
+                </div>
+            </div>
+
+            <!-- Organizer Information Section -->
+            <hr class="divider">
+            <h3 class="section-title">Organizer Information</h3>
+
+            <div class="form-group">
+                <label for="organizerName">Organizer Name <span class="required">*</span></label>
+                <input type="text" id="organizerName" name="organizerName" required placeholder="Enter organizer or company name">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="organizerEmail">Organizer Email <span class="required">*</span></label>
+                    <input type="email" id="organizerEmail" name="organizerEmail" required placeholder="email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="organizerPhone">Organizer Phone <span class="required">*</span></label>
+                    <input type="tel" id="organizerPhone" name="organizerPhone" required placeholder="+250 XXX XXX XXX">
+                </div>
+            </div>
+
+            <!-- Additional Details Section -->
+            <hr class="divider">
+            <h3 class="section-title">Additional Details</h3>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="regDeadline">Registration Deadline</label>
+                    <input type="date" id="regDeadline" name="regDeadline">
+                </div>
+                <div class="form-group">
+                    <label for="certifications">Certifications / Accreditation</label>
+                    <input type="text" id="certifications" name="certifications" placeholder="e.g., CPD, CME">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="specialNotes">Special Notes or Requirements</label>
+                <textarea id="specialNotes" name="specialNotes" placeholder="Accessibility needs, dress code, equipment, etc."></textarea>
+            </div>
+
+            <!-- Buttons -->
+            <div class="form-row full">
+                <button type="submit">Book Event</button>
+                <button type="reset">Clear Form</button>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+
+            // Get form data
+            const formData = new FormData(document.getElementById('eventForm'));
+            const data = Object.fromEntries(formData);
+
+            // Log the data (in a real application, send to a server)
+            console.log('Event Booking Data:', data);
+
+            // Show success message
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+
+            // Scroll to success message
+            successMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            // Reset form after 3 seconds
+            setTimeout(() => {
+                document.getElementById('eventForm').reset();
+                successMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        // Email validation on change
+        document.getElementById('eventForm').addEventListener('change', function(e) {
+            if (e.target.type === 'email') {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(e.target.value) && e.target.value !== '') {
+                    e.target.style.borderColor = '#e74c3c';
+                } else {
+                    e.target.style.borderColor = '#ddd';
+                }
+            }
+        });
+
+        // Date validation: end date must be after start date
+        document.getElementById('endDate').addEventListener('change', function() {
+            const start = document.getElementById('startDate').value;
+            const end = this.value;
+            if (start && end && end < start) {
+                this.style.borderColor = '#e74c3c';
+                alert('End date cannot be before the start date.');
+                this.value = '';
+            } else {
+                this.style.borderColor = '#ddd';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Thank You</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: white;
+      text-align: center;
+    }
+
+    .box {
+      background: rgba(255,255,255,0.1);
+      padding: 40px;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      background: white;
+      color: #2a5298;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+    <h1 id="message">Thank You!</h1>
+    <p>Your feedback has been received.</p>
+
+    <a href="feedback.html">
+      <button>Submit Another</button>
+    </a>
+  </div>
+
+  <script>
+    // Get data from URL
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get("name");
+
+    // Personalize message
+    if (name) {
+      document.getElementById("message").innerText = "Thank You, " + name + "!";
+    }
+  </script>
+
+</body>
+</html>
